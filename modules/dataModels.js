@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 
 //handle connection details here or in another module
+var connection = mongoose.connect("mongodb://localhost/mydb");
 
 //get necessary objects to work with
 var Schema = mongoose.Schema,
@@ -8,9 +9,10 @@ var Schema = mongoose.Schema,
 
 //define the schemas
 var UserProfileSchema = new Schema({
-	appId: String,
 	email: String,
+	_id: ObjectId(this.email),
 	fullName: String,
+	password: String,
 	listOfRoutes: Object,
 	listOfSaccos: Object,
 	listOfUsers: Object,
@@ -18,18 +20,20 @@ var UserProfileSchema = new Schema({
 });
 
 var SaccoProfileSchema = new Schema({
-	appId: String,
 	email: String,
+	_id: ObjectId(this.email),
 	saccoName: String,
+	password: String,
 	listOfRoutes: Object,
 	listOfSubscribers: Object,
 	profilePictureUrl: String
 });
 
 var RouteProfileSchema = new Schema({
-	appId: String,
 	email: String,
+	_id: ObjectId(this.email),
 	routeName: String,
+	password: String,
 	listOfSaccos: Object,
 	listOfSubscribers: Object,
 	profilePictureUrl: String
@@ -46,4 +50,4 @@ var UserProfileModel = mongoose.model("UserProfileModel"),
 	RouteProfileModel = mongoose.model("RouteProfileModel");
 
 //export these models
-module.exports = exports = [UserProfileModel, SaccoProfileModel, RouteProfileModel];
+module.exports = exports = {"User":UserProfileModel, "Sacco":SaccoProfileModel, "Route":RouteProfileModel};

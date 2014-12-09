@@ -1,0 +1,21 @@
+extends ./layout.jade
+
+block title
+	title #{title}
+
+block content
+	header
+		h1 #{heading}
+
+	main
+		p This is an app that offers map services and stuff
+		a(href="api") View our API
+	footer
+		&copy; NaiJav Team
+
+
+	script(src="js/jquery.js")
+	script(src="js/handlebars.js")
+	script(src="js/underscore.js")
+	script(src="js/backbone.js")
+	script(src="js/index.js")
