@@ -6,14 +6,10 @@ var mongoose = require("mongoose"),
 	path = require("path"),
 	dataModels = require(path.join(__dirname+"/dataModels"))
 
-var dbLocation = "mongodb://localhost/mydb";
-//connect to the database
-mongoose.connect(dbLocation);
-
 //receive login and signup request data from the user and then either create new accounts for them or authenticate them into the system
 
 //for signup
-function newUserSignup(vars){
+function signUp(vars){
 	//this variables parameter will is an object containing all the necessary account creation variables
 	//Algorithm
 	// 1. create a new document from the UserProfileModel
@@ -21,7 +17,6 @@ function newUserSignup(vars){
 	// 3. save the user model in the database
 	// 4. return a value indicating whether the saving was a success or a fail
 	var newUser = new dataModels.User({
-		"email": vars.email,
 		"password": vars.password,
 		"fullName": vars.fullName, 
 		"listOfSaccos": vars.listOfSaccos, 
@@ -29,8 +24,9 @@ function newUserSignup(vars){
 		"listOfUsers": vars.listOfUsers,
 		"profilePicUrl": vars.profilePicUrl
 	});
+	newUser.email = vars.email;
 	//first check if user exists in the database before saving a new instance
-	dataModels.User(findOne({_id: vars.email}, function(err, user){
+	dataModels.User.findOne({_id: vars.email}, function(err, user){
 		if(err){
 			console.log("There was an error checking for the document");
 		}else if(user){
@@ -45,7 +41,7 @@ function newUserSignup(vars){
 				}
 			});
 		}
-	}));
+	});
 }
 
 //for signin

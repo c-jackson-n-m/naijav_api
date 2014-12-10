@@ -1,7 +1,8 @@
 var mongoose = require("mongoose");
 
 //handle connection details here or in another module
-var connection = mongoose.connect("mongodb://localhost/mydb");
+var dbLocation = "mongodb://localhost/mydb";
+mongoose.connect(dbLocation);
 
 //get necessary objects to work with
 var Schema = mongoose.Schema,
@@ -9,8 +10,7 @@ var Schema = mongoose.Schema,
 
 //define the schemas
 var UserProfileSchema = new Schema({
-	email: String,
-	_id: ObjectId(this.email),
+	_id: String,
 	fullName: String,
 	password: String,
 	listOfRoutes: Object,
@@ -20,8 +20,7 @@ var UserProfileSchema = new Schema({
 });
 
 var SaccoProfileSchema = new Schema({
-	email: String,
-	_id: ObjectId(this.email),
+	_id: String,
 	saccoName: String,
 	password: String,
 	listOfRoutes: Object,
@@ -30,14 +29,22 @@ var SaccoProfileSchema = new Schema({
 });
 
 var RouteProfileSchema = new Schema({
-	email: String,
-	_id: ObjectId(this.email),
+	_id: String,
 	routeName: String,
 	password: String,
 	listOfSaccos: Object,
 	listOfSubscribers: Object,
 	profilePictureUrl: String
 });
+
+//virtuals
+UserProfileSchema.virtual("email").get(function(){
+	return this._id;
+});
+UserProfileSchema.virtual("email").set(function(value){
+	this._id = value;
+});
+//will complete email/_id virtuals for saccos and routes
 
 //define models out of these schemas
 mongoose.model("UserProfileModel", UserProfileSchema);
